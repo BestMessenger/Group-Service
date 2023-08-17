@@ -11,7 +11,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 @AllArgsConstructor
 @NoArgsConstructor
 @PrimaryKeyClass
-public class GroupKey {
+public class UserMembershipKeyModel {
 
     @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED)
     private int groupId;
