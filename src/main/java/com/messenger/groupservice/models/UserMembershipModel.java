@@ -15,4 +15,6 @@ public class UserMembershipModel {
 
     @PrimaryKey
     private UserMembershipKeyModel group;
+
+    private String role;
 }

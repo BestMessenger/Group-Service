@@ -10,8 +10,10 @@ public class GroupRequest {
 
     private int userId;
 
+    private String role;
+
     public UserMembershipModel toGroup() {
         UserMembershipKeyModel key = new UserMembershipKeyModel(groupId, userId);
-        return new UserMembershipModel(key);
+        return new UserMembershipModel(key, role);
     }
 }

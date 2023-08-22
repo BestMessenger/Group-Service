@@ -9,4 +9,6 @@ public class GroupResponse {
     private int group_id;
 
     private int user_id;
+
+    private String role;
 }

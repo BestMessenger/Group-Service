@@ -13,4 +13,7 @@ public interface GroupMembershipRepository extends CrudRepository<GroupMembershi
 
     @Query("select * from groupmembershipmodel where groupId=?0")
     List<GroupMembershipModel> getGroupsByGroupId(int groupId);
+
+    @Query("delete from groupmembershipmodel where groupId=?0")
+    void deleteGroupsByGroupId(int groupId);
 }

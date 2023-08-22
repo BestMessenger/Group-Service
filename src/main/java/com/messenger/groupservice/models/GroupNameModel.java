@@ -7,13 +7,13 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table
-public class GroupMembershipModel {
+public class GroupNameModel {
 
     @PrimaryKey
-    private GroupMembershipKeyModel key;
+    private int groupId;
 
-    private String role;
+    private String name;
 }

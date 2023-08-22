@@ -1,12 +1,10 @@
 package com.messenger.groupservice.controllers;
 
 import com.messenger.groupservice.dto.responses.GroupResponse;
-import com.messenger.groupservice.models.UserMembershipModel;
+import com.messenger.groupservice.models.*;
 import com.messenger.groupservice.services.GroupMembershipService;
+import com.messenger.groupservice.services.GroupNameService;
 import com.messenger.groupservice.services.UserMembershipService;
-import com.messenger.groupservice.models.UserMembershipKeyModel;
-import com.messenger.groupservice.models.GroupMembershipKeyModel;
-import com.messenger.groupservice.models.GroupMembershipModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/membership")
@@ -27,10 +26,13 @@ public class MembershipController {
     private final UserMembershipService userMembershipService;
     private final GroupMembershipService groupMembershipService;
 
+    private final GroupNameService groupNameService;
+
     @Autowired
-    public MembershipController(UserMembershipService userMembershipService, GroupMembershipService groupMembershipService) {
+    public MembershipController(UserMembershipService userMembershipService, GroupMembershipService groupMembershipService, GroupNameService groupNameService) {
         this.userMembershipService = userMembershipService;
         this.groupMembershipService = groupMembershipService;
+        this.groupNameService = groupNameService;
     }
 
     @DeleteMapping("/{userId}/{groupId}")
@@ -49,13 +51,16 @@ public class MembershipController {
     }
 
     @PostMapping("/{userId}/{groupId}")
-    @Operation(summary = "Добавить пользователя в группу", description = "Добавляет пользователя в группу по их идентификаторам")
+    @Operation(summary = "Добавить пользователя в группу", description = "Добавляет пользователя в группу по их идентификаторам(перед тем как добавлять пользователей нужно вначале создать группу и дай ей имя")
     @ApiResponse(responseCode = "200", description = "Пользователь успешно добавлен в группу")
     @ApiResponse(responseCode = "400", description = "Ошибка запроса")
     public ResponseEntity<Object> addUserToGroup(@PathVariable("userId") int userId,
-                                                 @PathVariable("groupId") int groupId) {
-        userMembershipService.saveGroup(new UserMembershipModel(new UserMembershipKeyModel(groupId, userId)));
-        groupMembershipService.saveGroup(new GroupMembershipModel(new GroupMembershipKeyModel(userId, groupId)));
+                                                 @PathVariable("groupId") int groupId,
+                                                 @RequestParam("role") String role) {
+        if (groupNameService.getGroupNameById(groupId).isEmpty())
+            return ResponseEntity.badRequest().body("Для начала нужна создать группу и дать ей имя");
+        userMembershipService.saveGroup(new UserMembershipModel(new UserMembershipKeyModel(groupId, userId), role));
+        groupMembershipService.saveGroup(new GroupMembershipModel(new GroupMembershipKeyModel(userId, groupId), role));
         return ResponseEntity.ok().body("Person with ID " + userId + " added to group with ID " + groupId);
     }
 
@@ -70,7 +75,7 @@ public class MembershipController {
         }
         List<GroupResponse> responses = new ArrayList<>();
         for (UserMembershipModel userMembershipModel : userMembershipModels) {
-            responses.add(new GroupResponse(userMembershipModel.getGroup().getGroupId(), userMembershipModel.getGroup().getUserId()));
+            responses.add(new GroupResponse(userMembershipModel.getGroup().getGroupId(), userMembershipModel.getGroup().getUserId(), userMembershipModel.getRole()));
         }
         return ResponseEntity.ok().body(responses);
     }
@@ -79,7 +84,12 @@ public class MembershipController {
     @Operation(summary = "Получить все группы", description = "Возвращает список всех групп")
     @ApiResponse(responseCode = "200", description = "Успешный запрос")
     public ResponseEntity<Object> getAllGroups() {
-        return ResponseEntity.ok().body(userMembershipService.getAllGroups());
+        List<UserMembershipModel> userMembershipModels = userMembershipService.getAllGroups();
+        List<GroupResponse> responses = new ArrayList<>();
+        for (UserMembershipModel userMembershipModel : userMembershipModels) {
+            responses.add(new GroupResponse(userMembershipModel.getGroup().getGroupId(), userMembershipModel.getGroup().getUserId(), userMembershipModel.getRole()));
+        }
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/group-id/{groupId}")
@@ -93,7 +103,7 @@ public class MembershipController {
         }
         List<GroupResponse> responses = new ArrayList<>();
         for (GroupMembershipModel groupMembershipModel : groupMembershipModels) {
-            responses.add(new GroupResponse(groupMembershipModel.getKey().getGroupId(), groupMembershipModel.getKey().getUserId()));
+            responses.add(new GroupResponse(groupMembershipModel.getKey().getGroupId(), groupMembershipModel.getKey().getUserId(), groupMembershipModel.getRole()));
         }
         return ResponseEntity.ok().body(responses);
     }
