@@ -13,8 +13,7 @@ services:
       timeout: 10s
 
   group-service:
-    build:
-      context: .
+    image: 'denpool/group-service:version1'
     ports:
       - "9000:9000"
     restart: always
