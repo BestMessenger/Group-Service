@@ -15,24 +15,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/groups")
 public class GroupNameController {
 
     private final GroupNameService groupNameService;
-    private final GroupMembershipService groupMembershipService;
-    private final UserMembershipService userMembershipService;
-
     private final GroupMembershipRepository groupMembershipRepository;
 
     private final UserMembershipRepository userMembershipRepository;
 
-    public GroupNameController(GroupNameService groupNameService, GroupMembershipService groupMembershipModel, UserMembershipService userMembershipService, GroupMembershipRepository groupMembershipRepository, UserMembershipRepository userMembershipRepository) {
+    public GroupNameController(GroupNameService groupNameService, GroupMembershipRepository groupMembershipRepository, UserMembershipRepository userMembershipRepository) {
         this.groupNameService = groupNameService;
-        this.groupMembershipService = groupMembershipModel;
-        this.userMembershipService = userMembershipService;
         this.groupMembershipRepository = groupMembershipRepository;
         this.userMembershipRepository = userMembershipRepository;
     }
