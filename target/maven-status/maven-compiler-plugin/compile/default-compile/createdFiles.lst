@@ -1,0 +1,17 @@
+com/messenger/groupservice/config/CassandraConfig.class
+com/messenger/groupservice/models/UserMembershipModel.class
+com/messenger/groupservice/dto/requests/GroupRequest.class
+com/messenger/groupservice/models/GroupMembershipKeyModel.class
+com/messenger/groupservice/dto/responses/GroupResponse.class
+com/messenger/groupservice/repositories/UserMembershipRepository.class
+com/messenger/groupservice/repositories/GroupNameRepository.class
+com/messenger/groupservice/repositories/GroupMembershipRepository.class
+com/messenger/groupservice/controllers/MembershipController.class
+com/messenger/groupservice/services/GroupNameService.class
+com/messenger/groupservice/models/GroupNameModel.class
+com/messenger/groupservice/services/GroupMembershipService.class
+com/messenger/groupservice/models/UserMembershipKeyModel.class
+com/messenger/groupservice/GroupServiceApplication.class
+com/messenger/groupservice/controllers/GroupNameController.class
+com/messenger/groupservice/services/UserMembershipService.class
+com/messenger/groupservice/models/GroupMembershipModel.class

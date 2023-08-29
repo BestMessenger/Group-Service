@@ -1,0 +1,17 @@
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/repositories/UserMembershipRepository.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/models/UserMembershipModel.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/dto/responses/GroupResponse.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/services/GroupMembershipService.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/models/GroupNameModel.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/repositories/GroupNameRepository.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/dto/requests/GroupRequest.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/GroupServiceApplication.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/services/GroupNameService.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/controllers/GroupNameController.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/controllers/MembershipController.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/services/UserMembershipService.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/models/UserMembershipKeyModel.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/models/GroupMembershipModel.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/repositories/GroupMembershipRepository.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/models/GroupMembershipKeyModel.java
+/Users/denpool/IdeaProjects/Bank_App/Group-Service/src/main/java/com/messenger/groupservice/config/CassandraConfig.java
