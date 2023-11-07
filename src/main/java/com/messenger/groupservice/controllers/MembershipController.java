@@ -96,7 +96,7 @@ public class MembershipController {
     @Operation(summary = "Получить пользователей в группе по идентификатору группы", description = "Возвращает список групп по идентификатору группы")
     @ApiResponse(responseCode = "200", description = "Успешный запрос", content = @Content(schema = @Schema(implementation = GroupMembershipModel.class)))
     @ApiResponse(responseCode = "400", description = "Группы не найдены или ошибка запроса")
-    public ResponseEntity<Object> getAllGroupsByGroupId(@PathVariable("groupId") int groupId) {
+    public ResponseEntity<Object> getAllUsersByGroupId(@PathVariable("groupId") int groupId) {
         List<GroupMembershipModel> groupMembershipModels = groupMembershipService.getGroupsByGroupId(groupId);
         if (groupMembershipModels.isEmpty()) {
             return ResponseEntity.badRequest().body("No group found for group with ID " + groupId);
