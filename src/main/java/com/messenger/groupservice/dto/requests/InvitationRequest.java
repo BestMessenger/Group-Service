@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupRequest {
-    private String group_name;
-    private Long group_creator_id;
-    private String group_description;
+public class InvitationRequest {
+    private Long group_id;
+    private Long sender_id;
+    private Long recipient_id;
 }
