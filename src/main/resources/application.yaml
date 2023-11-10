@@ -50,8 +50,10 @@ spring:
         config:
           storage-service:
             url: http://localhost:6500
+          user-service:
+            url: http://localhost:7000
 
-
-storage-directory: GroupService/
+storage-property:
+  storageDirectory: GroupService/
 
 

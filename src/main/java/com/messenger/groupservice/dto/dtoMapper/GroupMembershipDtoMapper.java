@@ -7,8 +7,11 @@ import com.messenger.groupservice.models.GroupModel;
 import com.messenger.groupservice.models.StatusUserInGroupModel;
 import com.messenger.groupservice.util.RoleUserInGroupEnum;
 import com.messenger.groupservice.util.StatusUserInGroupEnum;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 
+@Component
 public class GroupMembershipDtoMapper implements DtoMapper<GroupMembershipModel, GroupMembershipRequest, GroupMembershipResponse> {
     @Override
     public GroupMembershipModel toModel(GroupMembershipRequest groupMembershipRequest) {

@@ -6,9 +6,11 @@ import com.messenger.groupservice.models.GroupModel;
 import com.messenger.groupservice.models.InvitationModel;
 import com.messenger.groupservice.models.InvitationStatusModel;
 import com.messenger.groupservice.util.InvitationStatusEnum;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+@Component
 public class InvitationDtoMapper implements DtoMapper<InvitationModel, InvitationRequest, InvitationResponse> {
     @Override
     public InvitationModel toModel(InvitationRequest invitationRequest) {

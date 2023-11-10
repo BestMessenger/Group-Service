@@ -3,10 +3,12 @@ package com.messenger.groupservice.dto.dtoMapper;
 import com.messenger.groupservice.dto.requests.GroupRequest;
 import com.messenger.groupservice.dto.responses.GroupResponse;
 import com.messenger.groupservice.models.GroupModel;
+import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
+@Component
 public class GroupDtoMapper implements DtoMapper<GroupModel, GroupRequest, GroupResponse> {
     @Override
     public GroupModel toModel(GroupRequest groupRequest) {
