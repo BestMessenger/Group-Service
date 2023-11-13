@@ -1,5 +1,6 @@
 package com.messenger.groupservice.models;
 
+import com.messenger.groupservice.util.InvitationStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,10 @@ public class InvitationModel {
     private GroupModel group;
 
     @Column(name = "sender_id")
-    private Long sender;
+    private Long senderId;
+
+    @Column(name = "recipient_id")
+    private Long recipientId;
 
     @Column(name = "date_sent")
     private LocalDateTime dateSent;
@@ -30,9 +34,9 @@ public class InvitationModel {
     @Column(name = "date_responded")
     private LocalDateTime dateResponded;
 
-    @ManyToOne
-    @JoinColumn(name = "invitation_status_id")
-    private InvitationStatusModel invitationStatus;
+    @Column(name = "invitation_status")
+    @Enumerated(EnumType.STRING)
+    private InvitationStatusEnum invitationStatus;
 
     public InvitationModel(Long id) {
         this.id = id;

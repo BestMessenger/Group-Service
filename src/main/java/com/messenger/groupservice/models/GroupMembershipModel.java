@@ -2,6 +2,7 @@ package com.messenger.groupservice.models;
 
 import com.messenger.groupservice.models.GroupModel;
 import com.messenger.groupservice.util.RoleUserInGroupEnum;
+import com.messenger.groupservice.util.StatusUserInGroupEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,18 +29,26 @@ public class GroupMembershipModel {
     @Column(name = "user_id")
     private Long user;
 
-    @ManyToOne
-    @JoinColumn(name = "status_user_in_group_id")
-    private StatusUserInGroupModel role_id;
+    @Column(name = "role_in_group")
+    @Enumerated(EnumType.STRING)
+    private RoleUserInGroupEnum role;
+
+    @Column(name = "status_in_group")
+    @Enumerated(EnumType.STRING)
+    private StatusUserInGroupEnum statusInGroup;
 
     @Column(name = "join_date")
     private LocalDate joinDate;
 
-    @ManyToOne
-    @JoinColumn(name = "status_user_in_group_id")
-    private StatusUserInGroupModel statusUserInGroup_id;
-
     public GroupMembershipModel(Long id) {
         this.id = id;
+    }
+
+    public GroupMembershipModel(GroupModel group, Long user, RoleUserInGroupEnum role, StatusUserInGroupEnum statusInGroup, LocalDate joinDate) {
+        this.group = group;
+        this.user = user;
+        this.role = role;
+        this.statusInGroup = statusInGroup;
+        this.joinDate = joinDate;
     }
 }

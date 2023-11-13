@@ -1,8 +1,8 @@
-package com.messenger.groupservice.service;
+package com.messenger.groupservice.service.service_template;
 
 import java.util.List;
 
-public interface GenericService<Model, Request, Response> {
+public interface GenericServiceWithAllCrudOperations<Model, Request, Response> {
     Response add(Request request);
 
     Response getById(Long id);

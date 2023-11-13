@@ -16,6 +16,7 @@ public class InvitationResponse {
     private Long id;
     private Long group_id;
     private Long sender_id;
+    private Long recipient_id;
     private LocalDateTime date_sent;
     private InvitationStatusEnum invitationStatus;
 }

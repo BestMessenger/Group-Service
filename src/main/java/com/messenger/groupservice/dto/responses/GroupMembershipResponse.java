@@ -1,6 +1,5 @@
 package com.messenger.groupservice.dto.responses;
 
-import com.messenger.groupservice.models.StatusUserInGroupModel;
 import com.messenger.groupservice.util.StatusUserInGroupEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +13,5 @@ public class GroupMembershipResponse {
     private Long group_id;
     private Long user_id;
     private String role;
-    private StatusUserInGroupEnum statusUserInGroup;
+    private StatusUserInGroupEnum status_in_group;
 }

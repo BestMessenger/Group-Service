@@ -4,7 +4,6 @@ import com.messenger.groupservice.dto.requests.InvitationRequest;
 import com.messenger.groupservice.dto.responses.InvitationResponse;
 import com.messenger.groupservice.models.GroupModel;
 import com.messenger.groupservice.models.InvitationModel;
-import com.messenger.groupservice.models.InvitationStatusModel;
 import com.messenger.groupservice.util.InvitationStatusEnum;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +15,12 @@ public class InvitationDtoMapper implements DtoMapper<InvitationModel, Invitatio
     public InvitationModel toModel(InvitationRequest invitationRequest) {
         InvitationModel invitationModel = new InvitationModel();
         invitationModel.setGroup(new GroupModel(invitationRequest.getGroup_id()));
-        invitationModel.setSender(invitationRequest.getSender_id());
+        invitationModel.setSenderId(invitationRequest.getSender_id());
+        invitationModel.setRecipientId(invitationRequest.getRecipient_id());
         invitationModel.setDateSent(LocalDateTime.now());
         // Assuming dateResponded and invitationStatus are initialized as needed
         invitationModel.setDateResponded(null);
-        invitationModel.setInvitationStatus(new InvitationStatusModel(InvitationStatusEnum.PENDING.ordinal()));
+        invitationModel.setInvitationStatus(InvitationStatusEnum.PENDING);
 
         return invitationModel;
     }
@@ -30,10 +30,10 @@ public class InvitationDtoMapper implements DtoMapper<InvitationModel, Invitatio
         InvitationResponse invitationResponse = new InvitationResponse();
         invitationResponse.setId(invitationModel.getId());
         invitationResponse.setGroup_id(invitationModel.getGroup().getId());
-        invitationResponse.setSender_id(invitationModel.getSender());
+        invitationResponse.setSender_id(invitationModel.getSenderId());
+        invitationResponse.setRecipient_id(invitationModel.getRecipientId());
         invitationResponse.setDate_sent(invitationModel.getDateSent());
-        invitationResponse.setInvitationStatus(invitationModel.getInvitationStatus().getInvitationStatusName());
-
+        invitationResponse.setInvitationStatus(invitationModel.getInvitationStatus());
         return invitationResponse;
     }
 }

@@ -25,7 +25,7 @@ eureka:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/Messenger_App
+    url: jdbc:postgresql://localhost:5432/messenger
     username: postgres
     password: 25032001
     driver-class-name: org.postgresql.Driver

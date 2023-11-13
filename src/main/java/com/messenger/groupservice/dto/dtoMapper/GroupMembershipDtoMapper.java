@@ -4,7 +4,6 @@ import com.messenger.groupservice.dto.requests.GroupMembershipRequest;
 import com.messenger.groupservice.dto.responses.GroupMembershipResponse;
 import com.messenger.groupservice.models.GroupMembershipModel;
 import com.messenger.groupservice.models.GroupModel;
-import com.messenger.groupservice.models.StatusUserInGroupModel;
 import com.messenger.groupservice.util.RoleUserInGroupEnum;
 import com.messenger.groupservice.util.StatusUserInGroupEnum;
 import org.springframework.stereotype.Component;
@@ -18,10 +17,9 @@ public class GroupMembershipDtoMapper implements DtoMapper<GroupMembershipModel,
         GroupMembershipModel groupMembershipModel = new GroupMembershipModel();
         groupMembershipModel.setGroup(new GroupModel(groupMembershipRequest.getGroup_id()));
         groupMembershipModel.setUser(groupMembershipRequest.getUser_id());
-        groupMembershipModel.setRole_id(new StatusUserInGroupModel(RoleUserInGroupEnum.valueOf(groupMembershipRequest.getRole_user()).ordinal()));
+        groupMembershipModel.setRole(RoleUserInGroupEnum.DEFAULT_USER);
+        groupMembershipModel.setStatusInGroup(StatusUserInGroupEnum.ACTIVE);
         groupMembershipModel.setJoinDate(LocalDate.now());
-        groupMembershipModel.setStatusUserInGroup_id(new StatusUserInGroupModel(StatusUserInGroupEnum.ACTIVE.ordinal())); // Assuming a default status
-
         return groupMembershipModel;
     }
 
@@ -31,8 +29,10 @@ public class GroupMembershipDtoMapper implements DtoMapper<GroupMembershipModel,
         groupMembershipResponse.setId(groupMembershipModel.getId());
         groupMembershipResponse.setGroup_id(groupMembershipModel.getGroup().getId());
         groupMembershipResponse.setUser_id(groupMembershipModel.getUser());
-        groupMembershipResponse.setRole(groupMembershipModel.getRole_id().toString());
-        groupMembershipResponse.setStatusUserInGroup(groupMembershipModel.getStatusUserInGroup_id().getStatusName());
+        groupMembershipResponse.setRole(groupMembershipResponse.getRole());
+        groupMembershipResponse.setStatus_in_group(groupMembershipModel.getStatusInGroup());
+        groupMembershipResponse.setRole(groupMembershipModel.getRole().toString());
+        groupMembershipResponse.setStatus_in_group(groupMembershipModel.getStatusInGroup());
         return groupMembershipResponse;
     }
 }

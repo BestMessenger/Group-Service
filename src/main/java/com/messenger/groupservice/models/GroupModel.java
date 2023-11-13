@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Group")
+@Table(name = "Groups")
 public class GroupModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +34,12 @@ public class GroupModel {
 
     @Column(name = "image_logo_url")
     private String imageLogoUrl;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<InvitationModel> invitations;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<GroupMembershipModel> participants;
 
     public GroupModel(Long id) {
         this.id = id;
