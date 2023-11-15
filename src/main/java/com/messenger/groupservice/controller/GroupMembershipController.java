@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,5 +31,19 @@ public class GroupMembershipController {
     public ResponseEntity<List<GroupMembershipResponse>> getAllGroupsByUserId(@Parameter(description = "User ID", required = true) @PathVariable Long userId) {
         List<GroupMembershipResponse> responseList = groupMembershipService.getAllGroupsByUserId(userId);
         return ResponseEntity.ok(responseList);
+    }
+
+    @DeleteMapping("/user/{userId}/group/{groupId}")
+    @Operation(
+            summary = "Delete membership users in group by user ID and group ID",
+            description = "Retrieve a list of group memberships for a user based on the user's ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully deleted"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Void> deleteMembershipByGroupIdAndUserId(@PathVariable Long userId, @PathVariable Long groupId) {
+        groupMembershipService.deleteByUseIdAndGroupId(userId, groupId);
+        return ResponseEntity.noContent().build();
     }
 }

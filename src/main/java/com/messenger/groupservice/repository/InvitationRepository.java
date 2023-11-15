@@ -1,10 +1,8 @@
-package com.messenger.groupservice.repositories;
+package com.messenger.groupservice.repository;
 
 import com.messenger.groupservice.models.InvitationModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface InvitationRepository extends JpaRepository<InvitationModel, Long> {

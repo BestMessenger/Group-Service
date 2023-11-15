@@ -1,4 +1,4 @@
-package com.messenger.groupservice.repositories;
+package com.messenger.groupservice.repository;
 
 import com.messenger.groupservice.models.GroupModel;
 import org.springframework.data.jpa.repository.JpaRepository;

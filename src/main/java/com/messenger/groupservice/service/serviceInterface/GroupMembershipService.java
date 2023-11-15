@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface GroupMembershipService {
     List<GroupMembershipResponse> getAllGroupsByUserId(Long userId);
+    void deleteByUseIdAndGroupId(Long userId, Long groupId);
 }
