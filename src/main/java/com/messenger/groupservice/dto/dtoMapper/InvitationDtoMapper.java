@@ -21,6 +21,7 @@ public class InvitationDtoMapper implements DtoMapper<InvitationModel, Invitatio
         // Assuming dateResponded and invitationStatus are initialized as needed
         invitationModel.setDateResponded(null);
         invitationModel.setInvitationStatus(InvitationStatusEnum.PENDING);
+        invitationModel.setOffsetEnum(invitationRequest.getOffset_message_status());
 
         return invitationModel;
     }
@@ -34,6 +35,7 @@ public class InvitationDtoMapper implements DtoMapper<InvitationModel, Invitatio
         invitationResponse.setRecipient_id(invitationModel.getRecipientId());
         invitationResponse.setDate_sent(invitationModel.getDateSent());
         invitationResponse.setInvitationStatus(invitationModel.getInvitationStatus());
+        invitationResponse.setOffset_message_status(invitationModel.getOffsetEnum());
         return invitationResponse;
     }
 }

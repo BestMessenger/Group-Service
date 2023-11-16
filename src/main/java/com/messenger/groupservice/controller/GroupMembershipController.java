@@ -46,4 +46,21 @@ public class GroupMembershipController {
         groupMembershipService.deleteByUseIdAndGroupId(userId, groupId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/user/{userId}/group/{groupId}")
+    @Operation(
+            summary = "Get group membership by user ID and group ID",
+            description = "Retrieve a specific group membership for a user based on the user's ID and group ID."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the group membership"),
+            @ApiResponse(responseCode = "404", description = "Group membership not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<GroupMembershipResponse> getGroupMembershipByUserIdAndGroupId(
+            @Parameter(description = "User ID", required = true) @PathVariable Long userId,
+            @Parameter(description = "Group ID", required = true) @PathVariable Long groupId) {
+        GroupMembershipResponse response = groupMembershipService.groupMembershipByGroupIdAndUserId(groupId, userId);
+        return ResponseEntity.ok(response);
+    }
 }

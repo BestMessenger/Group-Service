@@ -33,6 +33,7 @@ public class GroupMembershipDtoMapper implements DtoMapper<GroupMembershipModel,
         groupMembershipResponse.setStatus_in_group(groupMembershipModel.getStatusInGroup());
         groupMembershipResponse.setRole(groupMembershipModel.getRole().toString());
         groupMembershipResponse.setStatus_in_group(groupMembershipModel.getStatusInGroup());
+        groupMembershipResponse.setOffset_message_id(groupMembershipModel.getOffsetMessageId());
         return groupMembershipResponse;
     }
 }

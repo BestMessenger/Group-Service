@@ -1,6 +1,7 @@
 package com.messenger.groupservice.dto.responses;
 
 import com.messenger.groupservice.util.InvitationStatusEnum;
+import com.messenger.groupservice.util.OffsetMessageEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,5 @@ public class InvitationResponse {
     private Long recipient_id;
     private LocalDateTime date_sent;
     private InvitationStatusEnum invitationStatus;
+    private OffsetMessageEnum offset_message_status;
 }

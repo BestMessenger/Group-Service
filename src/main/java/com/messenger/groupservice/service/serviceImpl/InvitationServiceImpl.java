@@ -6,14 +6,12 @@ import com.messenger.groupservice.dto.responses.InvitationResponse;
 import com.messenger.groupservice.exception.ExistException;
 import com.messenger.groupservice.exception.NoEntityFoundException;
 import com.messenger.groupservice.models.*;
+import com.messenger.groupservice.openfeign_client.MessagingServiceClient;
 import com.messenger.groupservice.repository.GroupMembershipRepository;
 import com.messenger.groupservice.repository.GroupRepository;
 import com.messenger.groupservice.repository.InvitationRepository;
 import com.messenger.groupservice.service.serviceInterface.InvitationService;
-import com.messenger.groupservice.util.InvitationStatusEnum;
-import com.messenger.groupservice.util.RoleUserInGroupEnum;
-import com.messenger.groupservice.util.StatusUserInGroupEnum;
-import com.messenger.groupservice.util.UserChecker;
+import com.messenger.groupservice.util.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +28,7 @@ public class InvitationServiceImpl implements InvitationService {
     private final GroupMembershipRepository groupMembershipRepository;
     private final DtoMapper<InvitationModel, InvitationRequest, InvitationResponse> invitationDtoMapper;
     private final UserChecker userChecker;
+    private final MessagingServiceClient messagingServiceClient;
 
     @Override
     public InvitationResponse add(InvitationRequest invitationRequest) {
@@ -92,7 +91,8 @@ public class InvitationServiceImpl implements InvitationService {
         });
         model.setInvitationStatus(respondEnum);
         if (respondEnum.equals(InvitationStatusEnum.ACCEPTED)) {
-            groupMembershipRepository.save(createGroupMembershipModel(model.getGroup(), model.getRecipientId()));
+            // todo
+            groupMembershipRepository.save(createGroupMembershipModel(model.getGroup(), model.getRecipientId(), model.getOffsetEnum()));
         }
         invitationRepository.save(model);
         return invitationDtoMapper.toResponse(model);
@@ -102,12 +102,24 @@ public class InvitationServiceImpl implements InvitationService {
         return "Invitation with id: " + id + " doesn't exist";
     }
 
-    private static GroupMembershipModel createGroupMembershipModel(GroupModel groupModel, Long recipientId) {
+    private GroupMembershipModel createGroupMembershipModel(GroupModel groupModel, Long recipientId, OffsetMessageEnum offsetEnum) {
         return new GroupMembershipModel(
                 groupModel,
                 recipientId,
                 RoleUserInGroupEnum.DEFAULT_USER,
                 StatusUserInGroupEnum.ACTIVE,
-                LocalDate.now());
+                LocalDate.now(),
+                getMessageIdByEnum(offsetEnum, groupModel.getId())
+        );
+    }
+
+    private Long getMessageIdByEnum(OffsetMessageEnum offsetMessageEnum, Long groupId) {
+        Long messageId = null;
+        switch (offsetMessageEnum) {
+            case FROM_LAST -> messageId = messagingServiceClient.getMaxMessageId(groupId);
+            case FROM_BEGINNING -> messageId = messagingServiceClient.getMinMessageId(groupId);
+            default -> throw new RuntimeException("UnSupported offsetMessage Enum");
+        }
+        return messageId;
     }
 }

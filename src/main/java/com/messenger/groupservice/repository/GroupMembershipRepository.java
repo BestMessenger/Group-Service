@@ -25,4 +25,7 @@ public interface GroupMembershipRepository extends JpaRepository<GroupMembership
             "join GM.group G " +
             "where GM.user = :userId and G.id = :groupId")
     Optional<GroupMembershipModel> findTopByUserAndGroup(Long userId, Long groupId);
+
+    @Query("SELECT GM FROM GroupMembershipModel AS GM WHERE GM.group = :groupId AND GM.user = :userId")
+    Optional<GroupMembershipModel> groupMembershipByGroupIdAndUserId(Long groupId, Long userId);
 }

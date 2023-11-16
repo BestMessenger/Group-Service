@@ -35,4 +35,11 @@ public class GroupMembershipServiceImpl implements GroupMembershipService {
             groupMembershipRepository.delete(model);
         }
     }
+
+    @Override
+    public GroupMembershipResponse groupMembershipByGroupIdAndUserId(Long groupId, Long userId) {
+        GroupMembershipModel model = groupMembershipRepository.groupMembershipByGroupIdAndUserId(groupId, userId)
+                .orElseThrow(() -> new NoEntityFoundException("Group not exist or User in this group"));
+        return groupMembershipDtoMapper.toResponse(model);
+    }
 }

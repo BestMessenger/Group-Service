@@ -1,6 +1,7 @@
 package com.messenger.groupservice.models;
 
 import com.messenger.groupservice.util.InvitationStatusEnum;
+import com.messenger.groupservice.util.OffsetMessageEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +38,10 @@ public class InvitationModel {
     @Column(name = "invitation_status")
     @Enumerated(EnumType.STRING)
     private InvitationStatusEnum invitationStatus;
+
+    @Column(name = "offset_messages")
+    @Enumerated(EnumType.STRING)
+    private OffsetMessageEnum offsetEnum;
 
     public InvitationModel(Long id) {
         this.id = id;
