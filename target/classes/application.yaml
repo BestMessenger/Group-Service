@@ -52,6 +52,8 @@ spring:
             url: http://localhost:6500
           user-service:
             url: http://localhost:7000
+          messaging-service:
+            url: http://localhost:1000
 
 storage-property:
   storageDirectory: GroupService/
