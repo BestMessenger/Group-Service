@@ -9,9 +9,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @EnableFeignClients
-public class GroupServiceApplication {
+public class 	GroupServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GroupServiceApplication.class, args);

@@ -12,10 +12,12 @@ import com.messenger.groupservice.repository.GroupRepository;
 import com.messenger.groupservice.repository.InvitationRepository;
 import com.messenger.groupservice.service.serviceInterface.InvitationService;
 import com.messenger.groupservice.util.*;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +34,15 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     public InvitationResponse add(InvitationRequest invitationRequest) {
-        if (invitationRepository.existsByRecipientIdAndSenderId(invitationRequest.getRecipient_id(), invitationRequest.getSender_id())) {
+        if (!groupRepository.existsById(invitationRequest.getGroup_id())) {
+            throw new ExistException("Group with id: " + invitationRequest.getGroup_id() + " doesn't exist");
+        } else if (invitationRepository.existAcceptedInvite(invitationRequest.getGroup_id(), invitationRequest.getRecipient_id(), InvitationStatusEnum.ACCEPTED)) {
+            throw new ExistException("Invitation's been Accepted");
+        } else if (invitationRepository.existsByRecipientIdAndSenderIdAndGroupId(
+                invitationRequest.getRecipient_id(),
+                invitationRequest.getSender_id(),
+                invitationRequest.getGroup_id())) {
             throw new ExistException("Invitation's been exist");
-        } else if (!groupRepository.existsById(invitationRequest.getGroup_id())) {
-            throw new NoEntityFoundException("Group with id: " + invitationRequest.getGroup_id() + " doesn't exist");
         } else if (!userChecker.isExistUserInProfileService(invitationRequest.getRecipient_id())) {
             throw new NoEntityFoundException("Recipient with id: " + invitationRequest.getRecipient_id() + " doesn't exist");
         } else if (!userChecker.isExistUserInProfileService(invitationRequest.getSender_id())) {
@@ -86,12 +93,15 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     public InvitationResponse respondToGroupInvitation(Long invitationId, InvitationStatusEnum respondEnum) {
+        if (invitationRepository.existAcceptedInviteByIdAndStatus(invitationId, InvitationStatusEnum.ACCEPTED)) {
+            throw new ExistException("Invitation's been Accepted");
+        }
         InvitationModel model = invitationRepository.findById(invitationId).orElseThrow(() -> {
             throw new NoEntityFoundException(getNoEntityErrorMessage(invitationId));
         });
         model.setInvitationStatus(respondEnum);
+        model.setDateResponded(LocalDateTime.now());
         if (respondEnum.equals(InvitationStatusEnum.ACCEPTED)) {
-            // todo
             groupMembershipRepository.save(createGroupMembershipModel(model.getGroup(), model.getRecipientId(), model.getOffsetEnum()));
         }
         invitationRepository.save(model);
@@ -115,11 +125,15 @@ public class InvitationServiceImpl implements InvitationService {
 
     private Long getMessageIdByEnum(OffsetMessageEnum offsetMessageEnum, Long groupId) {
         Long messageId = null;
-        switch (offsetMessageEnum) {
-            case FROM_LAST -> messageId = messagingServiceClient.getMaxMessageId(groupId);
-            case FROM_BEGINNING -> messageId = messagingServiceClient.getMinMessageId(groupId);
-            default -> throw new RuntimeException("UnSupported offsetMessage Enum");
+        try {
+            switch (offsetMessageEnum) {
+                case FROM_LAST -> messageId = messagingServiceClient.getMaxMessageId(groupId);
+                case FROM_BEGINNING -> messageId = messagingServiceClient.getMinMessageId(groupId);
+                default -> throw new RuntimeException("UnSupported offsetMessage Enum");
+            }
+            return messageId;
+        } catch (FeignException.NotFound e) {
+            return 1L;
         }
-        return messageId;
     }
 }
