@@ -12,7 +12,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 @EnableDiscoveryClient
 @EnableFeignClients
 public class 	GroupServiceApplication {
-// 1 try
+// 2 try
 	public static void main(String[] args) {
 		SpringApplication.run(GroupServiceApplication.class, args);
 	}
