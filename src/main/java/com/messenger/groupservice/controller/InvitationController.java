@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/invitations")
+@AllArgsConstructor
 public class InvitationController {
 
     private final InvitationService invitationService;
-
-    @Autowired
-    public InvitationController(InvitationService invitationService) {
-        this.invitationService = invitationService;
-    }
 
     @PostMapping
     @Operation(
