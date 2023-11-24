@@ -62,4 +62,4 @@ jobs:
           docker buildx build \
             --file ./Dockerfile \
             --tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME_CONTAINER }}:latest \
-            --push
+            --push .
