@@ -11,9 +11,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
-public class 	GroupServiceApplication {
-// 3 try
-	public static void main(String[] args) {
-		SpringApplication.run(GroupServiceApplication.class, args);
-	}
+public class GroupServiceApplication {
+	// zad
+    public static void main(String[] args) {
+        SpringApplication.run(GroupServiceApplication.class, args);
+    }
 }
