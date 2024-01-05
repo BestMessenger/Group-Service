@@ -1,0 +1,67 @@
+server:
+  port: ${SERVICE_SERVER_PORT}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_ENDPOINT}
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  packagesToScan: com.messenger.groupservice
+
+eureka:
+  client:
+    enabled: ${EUREKA_ENABLED}
+#  eureka:
+#    client:
+#      service-url:
+#        defaultZone: ${EUREKA_DEFAULT_ZONE}
+
+spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+  sql:
+    init:
+      mode: always
+  application:
+    name: group-service
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 6MB
+  cloud:
+    openfeign:
+      client:
+        config:
+          storage-service:
+            url: ${STORAGE_SERVICE_URL}
+          user-service:
+            url: ${USER_SERVICE_URL}
+          messaging-service:
+            url: ${MESSAGING_SERVICE_URL}
+
+storage-property:
+  storageDirectory: ${STORAGE_DIRECTORY}

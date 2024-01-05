@@ -1,0 +1,33 @@
+version: "3.3"
+
+services:
+
+  group-service:
+    container_name: group-service
+    image: denpool/messenger-group-service:0.0.1
+    ports:
+      - "9000:9000"
+    env_file:
+      - /Users/denpool/Desktop/EnvFiles/messenger/group-service-test.env
+    networks:
+      - mysql_net
+
+  google-sql-proxy:
+    container_name: google-sql-proxy
+    image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.1
+    ports:
+      - "127.0.0.1:5432:5432"
+    command: [
+      '--credentials-file', '/path/to/service-account-key.json',
+      '-instances=messenger-410118:europe-central2:messenger=tcp:0.0.0.0:5432'
+    ]
+    volumes:
+      - /Users/denpool/Downloads/messenger-410118-1ccf238427b6.json:/path/to/service-account-key.json
+    networks:
+      mysql_net:
+        aliases:
+          - google-sql-proxy
+
+networks:
+  mysql_net:
+    driver: bridge

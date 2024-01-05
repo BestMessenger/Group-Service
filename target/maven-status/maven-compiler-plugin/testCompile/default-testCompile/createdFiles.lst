@@ -1,0 +1,4 @@
+com/messenger/groupservice/controller/GroupMembershipControllerTest.class
+com/messenger/groupservice/GroupServiceApplicationTest.class
+com/messenger/groupservice/controller/GroupControllerTest.class
+com/messenger/groupservice/controller/InvitationControllerTest.class

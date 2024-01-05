@@ -1,0 +1,3 @@
+ALTER TABLE public.Groups REPLICA IDENTITY FULL;
+ALTER TABLE public.Invitations_Table REPLICA IDENTITY FULL;
+ALTER TABLE public.Group_Memberships_Table REPLICA IDENTITY FULL;
