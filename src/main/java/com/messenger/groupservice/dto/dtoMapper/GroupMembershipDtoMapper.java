@@ -6,14 +6,18 @@ import com.messenger.groupservice.models.GroupMembershipModel;
 import com.messenger.groupservice.models.GroupModel;
 import com.messenger.groupservice.util.RoleUserInGroupEnum;
 import com.messenger.groupservice.util.StatusUserInGroupEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
+@Slf4j
 @Component
 public class GroupMembershipDtoMapper implements DtoMapper<GroupMembershipModel, GroupMembershipRequest, GroupMembershipResponse> {
+
     @Override
     public GroupMembershipModel toModel(GroupMembershipRequest groupMembershipRequest) {
+        log.info("Mapping GroupMembershipRequest to GroupMembershipModel");
         GroupMembershipModel groupMembershipModel = new GroupMembershipModel();
         groupMembershipModel.setGroup(new GroupModel(groupMembershipRequest.getGroup_id()));
         groupMembershipModel.setUser(groupMembershipRequest.getUser_id());
@@ -25,6 +29,7 @@ public class GroupMembershipDtoMapper implements DtoMapper<GroupMembershipModel,
 
     @Override
     public GroupMembershipResponse toResponse(GroupMembershipModel groupMembershipModel) {
+        log.info("Mapping GroupMembershipModel to GroupMembershipResponse");
         GroupMembershipResponse groupMembershipResponse = new GroupMembershipResponse();
         groupMembershipResponse.setId(groupMembershipModel.getId());
         groupMembershipResponse.setGroup_id(groupMembershipModel.getGroup().getId());
