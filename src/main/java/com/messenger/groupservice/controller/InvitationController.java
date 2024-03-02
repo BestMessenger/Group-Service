@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/invitations")
 @AllArgsConstructor
@@ -36,7 +38,9 @@ public class InvitationController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<InvitationResponse> addInvitation(@RequestBody InvitationRequest invitationRequest) {
+        log.info("Received request to create a new invitation");
         InvitationResponse response = invitationService.add(invitationRequest);
+        log.info("Invitation created successfully. Invitation ID: {}", response.getId());
         return new ResponseEntity<>(response, HttpHeadersGenerator.getHttpHeaders(response.getId()), HttpStatus.CREATED);
     }
 
@@ -51,7 +55,9 @@ public class InvitationController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<InvitationResponse> getInvitationById(@Parameter(description = "Invitation ID", required = true) @PathVariable Long id) {
+        log.info("Received request to retrieve invitation by ID: {}", id);
         InvitationResponse response = invitationService.getById(id);
+        log.info("Invitation retrieved successfully. Invitation ID: {}", id);
         return ResponseEntity.ok(response);
     }
 
@@ -65,7 +71,9 @@ public class InvitationController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<InvitationResponse>> getAllInvitations() {
+        log.info("Received request to retrieve all invitations");
         List<InvitationResponse> responses = invitationService.getAll();
+        log.info("Invitations retrieved successfully. Total invitations: {}", responses.size());
         return ResponseEntity.ok(responses);
     }
 
@@ -80,7 +88,9 @@ public class InvitationController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<Void> deleteInvitation(@Parameter(description = "Invitation ID", required = true) @PathVariable Long id) {
+        log.info("Received request to delete invitation by ID: {}", id);
         invitationService.deleteById(id);
+        log.info("Invitation deleted successfully. Invitation ID: {}", id);
         return ResponseEntity.noContent().build();
     }
 
@@ -97,7 +107,9 @@ public class InvitationController {
     public ResponseEntity<InvitationResponse> respondToInvitation(
             @Parameter(description = "Invitation ID", required = true) @PathVariable Long invitationId,
             @RequestParam InvitationStatusEnum respond_enum) {
+        log.info("Received request to respond to invitation with ID: {} with response: {}", invitationId, respond_enum);
         InvitationResponse response = invitationService.respondToGroupInvitation(invitationId, respond_enum);
+        log.info("Responded to invitation successfully. Invitation ID: {}, Response: {}", invitationId, respond_enum);
         return ResponseEntity.ok(response);
     }
 }

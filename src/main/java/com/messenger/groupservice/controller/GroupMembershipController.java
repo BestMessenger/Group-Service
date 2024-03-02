@@ -8,11 +8,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping("/group-memberships")
@@ -26,11 +28,13 @@ public class GroupMembershipController {
             description = "Retrieve a list of group memberships for a user based on the user's ID."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the group memberships"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the groups"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<GroupMembershipResponse>> getAllGroupsByUserId(@Parameter(description = "User ID", required = true) @PathVariable Long userId) {
+        log.info("Received request to retrieve all groups for user with ID: {}", userId);
         List<GroupMembershipResponse> responseList = groupMembershipService.getAllGroupsByUserId(userId);
+        log.info("Groups retrieved successfully for user ID: {}. Total groups: {}", userId, responseList.size());
         return ResponseEntity.ok(responseList);
     }
 
@@ -44,7 +48,9 @@ public class GroupMembershipController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<Void> deleteMembershipByGroupIdAndUserId(@PathVariable Long userId, @PathVariable Long groupId) {
+        log.info("Received request to delete group membership for user ID: {} and group ID: {}", userId, groupId);
         groupMembershipService.deleteByUseIdAndGroupId(userId, groupId);
+        log.info("Group membership deleted successfully for user ID: {} and group ID: {}", userId, groupId);
         return ResponseEntity.noContent().build();
     }
 
@@ -61,7 +67,9 @@ public class GroupMembershipController {
     public ResponseEntity<GroupMembershipResponse> getGroupMembershipByUserIdAndGroupId(
             @Parameter(description = "User ID", required = true) @PathVariable Long userId,
             @Parameter(description = "Group ID", required = true) @PathVariable Long groupId) {
+        log.info("Received request to retrieve group membership for user ID: {} and group ID: {}", userId, groupId);
         GroupMembershipResponse response = groupMembershipService.groupMembershipByGroupIdAndUserId(groupId, userId);
+        log.info("Group membership retrieved successfully for user ID: {} and group ID: {}", userId, groupId);
         return ResponseEntity.ok(response);
     }
 
@@ -80,7 +88,9 @@ public class GroupMembershipController {
             @Parameter(description = "User ID", required = true) @PathVariable Long userId,
             @Parameter(description = "Group ID", required = true) @PathVariable Long groupId,
             @Parameter(description = "New role for the user in the group", required = true) @PathVariable RoleUserInGroupEnum role) {
+        log.info("Received request to change role for user ID: {} in group ID: {} to role: {}", userId, groupId, role);
         GroupMembershipResponse response = groupMembershipService.changeRoleUserInGroup(userId, groupId, role);
+        log.info("User role changed successfully for user ID: {} in group ID: {} to role: {}", userId, groupId, role);
         return ResponseEntity.ok(response);
     }
 }
